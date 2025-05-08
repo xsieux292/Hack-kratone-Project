@@ -1,32 +1,73 @@
 //รับค่าจากแต่ละElement
-const text_input = document.querySelectorAll('.text_input')
 const btn_ramdom_num = document.getElementById('btn_random')
+
+const text_input = document.querySelectorAll('.text_input')
 const btn_summit = document.getElementById('btn_summit')
 
-//ใส่Evenเมื่อsummit
-btn_summit.addEventListener('submit', LotteryResult)
+const btn_show = document.getElementByClass('btn_show')
+const btn_hide = document.getElementByClass('btn_hide')
 
 //ใส่Evenเมื่อกดrandom
 btn_ramdom_num.addEventListener('submit', RandomNumberInput)
 
+//ใส่Evenเมื่อsummit
+btn_summit.addEventListener('submit', AddItemToList)
+
+//ใส่Evenเมื่อกดแสดง และกดซ่อน
+btn_show.addEventListener('submit',toggleBox)
+btn_hide.addEventListener('submit',toggleBox)
+
 //ฟังก์ชันสำหรับสุ่มค่าและเปลี่ยนค่าในปุ่มinput
-function RandomNumberInput(){
+function RandomNumberInput(e){
+    e.preventDefault()
     const number_arr = generateRandomNumber().toString().split('').map(Number)
     text_input.forEach((text, index) => {
         text.value = number_arr[index]; 
     });
 }
 
- //ฟังก์ชันสำหรับแสดงผล ค่าที่ได้จากการสุ่ม
-function LotteryResult(e){
+//ตัวแปรเก็บข้อมูลที่ได้รายการซื้อหวย
+let Datalist=[]
+
+ //ฟังก์ชันสำหรับใส่ค่าที่ป้อนลงในลิสต์
+function AddItemToList(e){
     e.preventDefault()
     if([...text_input].some(text_input => text_input.value.trim() == '')){
         alert("Please enter complete information.")
     }else{
         const num_input = Number(Array.from(text_input).join(''))
-        const LotteryResult=GetLotteryResult()
+        Datalist.push(num_input)
+        updateList();
+        text_input.map(text => text.value = '');
     }
 }
+
+//ฟังก์ชันสำหรับอัพเดทรายการเมื่อกดปุ่ม
+function updateList(){
+    // ล้างรายการก่อน
+    const listElement = document.getElementById('objectList')
+    listElement.innerHTML = '' 
+    const counts = {}
+
+    //นับlistที่ซ้ำ
+    Datalist.forEach(id => {
+        counts[id] = (counts[id] || 0) + 1;
+    });
+    //แสดงผล
+    for (const id in counts) {
+        const listItem = document.createElement('li');
+        listItem.textContent = `หมายเลขหวย: ${id} - จำนวน: ${counts[id]} ใบ`;
+        listElement.appendChild(listItem);
+    }
+}
+
+/*
+//ฟังก์ชันสำหรับเช็คผล  (ยังไม่ได้ทำ)
+function CheckResult(){
+    const num_input = Number(Array.from(text_input).join(''))
+    const LotteryResult=GetLotteryResult()
+}
+*/
 
 //ฟังก์ชันสำหรับสร้างจำนวนชุดของหวยว่ามีกี่ชุด p1, p2, p3, p4, p5, pdf3, pdl3, pdl2
 const GetLotteryResult = () => {
@@ -42,3 +83,12 @@ const GetLotteryResult = () => {
 //ฟังก์ชันสำหรับสุ่มตัวเลขหวย 6 ตัว
 const generateRandomNumber = () => Math.floor(Math.random() * 900000) + 100000;
 
+//ฟังก์ชันสำหรับสร้าง ID
+function autoID(){
+    return Math.floor(Math.random()*1000000)
+}
+
+//ฟังก์ชันสำหรับเปลี่ยน Class เพื่อแสดงรายกการ
+function toggleBox(){
+    const box_list = document.getElementById('box_list').classList.toggle("active");
+}
