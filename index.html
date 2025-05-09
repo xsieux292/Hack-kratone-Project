@@ -1,29 +1,71 @@
 <!doctype html>
-<html>
-
+<html lang="th">
 <head>
-  <title> hack-กระโถน </title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>ชื่อเว็บ</title>
 </head>
+<body class="bg-white flex flex-col min-h-screen">
 
-<BODY>
-  <CENTER>
-    <h1>dog</h1>
-  </CENTER> 
-      <div class="box">
-    <input type="text" maxlength="1">
-    <input type="text" maxlength="1">
-    <input type="text" maxlength="1">
-    <input type="text" maxlength="1">
-    <input type="text" maxlength="1">
-    <input type="text" maxlength="1">
-  </div>
-  <button type="button">สุ่ม</button>
-  <input type="text" id="num"><br><br>
-  <CENTER>
-  <p>ผลรางวัลจะออกในอีก 0:00n </p>
-  <p>ผลรางวัลคือ</p>
-  </CENTER>
-  
-</BODY>
+  <!-- แถบด้านบน -->
+  <header class="flex items-center justify-between px-4 py-2">
+    <div class="w-24 h-4 bg-gray-300 rounded"></div>
+    <div class="flex items-center gap-2 text-sm">
+      <span>คุณ หนูหมา กทม</span>
+      <div class="w-3 h-3 bg-gray-300 rounded-full"></div>
+    </div>
+  </header>
 
+  <!-- เนื้อหาหลัก -->
+  <main class="flex-1 px-8 max-w-md w-full mx-auto">
+
+    <!-- ชื่อเว็บ -->
+    <h1 class="text-center text-4xl font-bold">ชื่อเว็บ</h1>
+    <p class="text-center text-xl mt-2">รายละเอียด</p>
+
+    <!-- ช่องตัวเลข -->
+    <div class="flex justify-center gap-3 mt-6">
+      <div class="w-12 h-12 bg-gray-300 rounded"></div>
+      <div class="w-12 h-12 bg-gray-300 rounded"></div>
+      <div class="w-12 h-12 bg-gray-300 rounded"></div>
+      <div class="w-12 h-12 bg-gray-300 rounded"></div>
+      <div class="w-12 h-12 bg-gray-300 rounded"></div>
+      <div class="w-12 h-12 bg-gray-300 rounded"></div>
+    </div>
+
+    <!-- ปุ่ม -->
+    <div class="flex justify-center gap-4 mt-6">
+      <button class="px-6 py-2 bg-orange-500 text-white rounded">สุ่ม</button>
+      <button class="px-6 py-2 bg-green-500 text-white rounded">ยืนยันลอตเตอรี่ของคุณ</button>
+      <button class="px-6 py-2 bg-red-600 text-white rounded">ล้าง</button>
+    </div>
+
+    <!-- ดูฉลาก -->
+    <p class="text-center mt-4 text-red-600 underline cursor-pointer">
+      คลิกเพื่อดูฉลากของคุณ
+    </p>
+    <p class="text-center text-sm mt-1">ผลรางวัลจะออกในอีก 0:00u</p>
+
+    <!-- ช่องสี่เหลี่ยมข้างขวา -->
+    <div class="w-24 h-4 bg-gray-300 rounded ml-auto mt-8"></div>
+
+    <!-- ผลรางวัล -->
+    <h2 class="text-center text-2xl font-semibold mt-10">เลขที่ออกคือ</h2>
+
+    <div class="grid grid-cols-2 gap-y-2 mt-6 max-w-xs mx-auto">
+      <span>รางวัลที่1:</span> <span></span>
+      <span>รางวัลที่2:</span> <span></span>
+      <span>รางวัลที่3:</span> <span></span>
+      <span>รางวัลที่4:</span> <span></span>
+      <span>รางวัลที่5:</span> <span></span>
+    </div>
+  </main>
+
+  <!-- ฟุตเตอร์ -->
+  <footer class="bg-gray-400 text-center py-2">
+    สปอนเซอร์
+  </footer>
+
+</body>
 </html>
