@@ -76,21 +76,50 @@
       <h1 class="text-xl font-bold text-gray-800">ลุ้นแบบไม่เจ็บ JWC888</h1>
     </div>
     <div class="flex items-center gap-6">
+      <!--
       <nav class="flex gap-6">
         <a href="#" class="text-gray-700 hover:text-red-600">หน้าแรก</a>
         <a href="#" class="text-gray-700 hover:text-red-600">ผลรางวัล</a>
         <a href="#" class="text-gray-700 hover:text-red-600">ประวัติการซื้อ</a>
         <a href="#" class="text-gray-700 hover:text-red-600">วิธีเล่น</a>
-      </nav>
-      <div class="flex items-center gap-3 bg-gray-100 px-4 py-2 rounded-full">
-        <div class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center text-white font-bold">U</div>
-        <span id="username" class="font-medium">Username</span>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-        </svg>
+      </nav>-->
+      <button id="userBtn" >
+        <div class="flex items-center gap-3 bg-gray-100 px-4 py-2 rounded-full" >
+          <div class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center text-white font-bold">U</div>
+          <span id="username" class="font-medium">Username</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </div>
+      </button>
+      <!--- กดlogin-logout--->
+      <div id="menu" class=" relative group hidden">
+        <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20">
+          <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
+            <button id="login-outBtn" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left">เข้าสู่ระบบ</button>
+          </div>
+        </div>
+      </div>
+  </header>
+  <!-- หน้าล็อคอิน-->
+  <div id="login" class="hidden fixed  inset-0 bg-gray-900 bg-opacity-50 z-50">
+    <div class="flex items-center justify-center h-screen">
+      <div class="bg-white shadow-lg rounded-lg p-8 w-96">
+        <h2 class="text-2xl font-bold text-center mb-6">เข้าสู่ระบบ</h2>
+        <form id="loginForm">
+          <div class="mb-4">
+            <label for="username" class="block text-gray-700">ชื่อผู้ใช้</label>
+            <input type="text" id="username" class="w-full border border-gray-300 rounded-lg p-2" required>
+          </div>
+          <div class="mb-4">
+            <label for="password" class="block text-gray-700">รหัสผ่าน</label>
+            <input type="password" id="password" class="w-full border border-gray-300 rounded-lg p-2" required>
+          </div>
+          <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg">เข้าสู่ระบบ</button>
+        </form>
       </div>
     </div>
-  </header>
+  </div>
 
   <!-- เนื้อหาหลัก -->
   <main class="flex-1 container mx-auto px-12 py-8">
@@ -143,6 +172,7 @@
           <div id="historyList" class="space-y-3">
             <!-- จะแสดงประวัติที่นี่ -->
           </div>
+
         </div>
       </div>
 
@@ -229,12 +259,12 @@
     function confirmNumbers() {
       const input = document.querySelectorAll('.input')
       lotteryNumbers = Array.from(input).map(input => input.value);
-      if(lotteryNumbers.some(num => num > 9 || num < 0)) {
-        showAlert('กรุณากรอกเลข 0-9 เท่านั้น', 'error');
+      if(lotteryNumbers.some(num => num === '')) {
+        showAlert('กรุณากรอกเลขให้ครบทุกช่อง', 'error');
         return;
       }
-      if(lotteryNumbers.length === 0) {
-        showAlert('กรุณาสุ่มเลขก่อนยืนยัน', 'error');
+      if(lotteryNumbers.some(num => num > 9 || num < 0)) {
+        showAlert('กรุณากรอกเลข 0-9 เท่านั้น', 'error');
         return;
       }
       confirmedNumbers = [...lotteryNumbers];
@@ -350,22 +380,45 @@ function checkIfWon() {
     for (const item in history) {
       const numcheck = history[item].numbers;
       if (numcheck === prizeNumber) {
-        alert(`ยินดีด้วย! คุณถูกรางวัลที่ ${i}: ${prizeNumber}`);
+        showAlert(`ยินดีด้วย! คุณถูกรางวัลที่ ${i}: ${prizeNumber}`, 'success');
         isWinner = true;
         break;
       }
     }
   }
   if (!isWinner) {
-    alert("เสียใจด้วย คุณไม่ถูกรางวัล");
+    showAlert("เสียใจด้วย คุณไม่ถูกรางวัล", "error");
   }
 }
+
+function DeleteHistory() {
+  history.pop();
+  localStorage.setItem('DL', JSON.stringify(history));
+  updateHistory();
+  showAlert('ลบประวัติการทำรายการเรียบร้อยแล้ว', 'success');
+}
+
+function toggleVisibility(element) {
+  element = document.getElementById('menu');
+  if (element.classList.contains('hidden')) {
+    // แปลงจาก 'hidden' เป็น 'visibility'
+    element.classList.remove('hidden');
+    element.style.visibility = 'visible';
+  } else {
+    // แปลงจาก 'visibility' กลับเป็น 'hidden'
+    element.style.visibility = 'hidden';
+  }
+}
+
+
 
     // ตั้งค่าปุ่ม
     document.getElementById('randomBtn').addEventListener('click', generateRandomNumbers);
     document.getElementById('confirmBtn').addEventListener('click', confirmNumbers);
     document.getElementById('clearBtn').addEventListener('click', clearNumbers);
     document.getElementById('viewLabel').addEventListener('click', getResult);
+    document.getElementById('deletehistory').addEventListener('click', DeleteHistory);
+
     
     // อัพเดทนับถอยหลังทุกวินาที
     setInterval(updateCountdown, 1000);
