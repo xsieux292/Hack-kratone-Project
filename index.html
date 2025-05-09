@@ -241,11 +241,11 @@
   </footer>
 
   <script>
-    // ตัวแปรเก็บเลขลอตเตอรี่
+          // ตัวแปรเก็บเลขลอตเตอรี่
     let lotteryNumbers = [];
     let confirmedNumbers = [];
-    let history = [];
-    
+    let history = JSON.parse(localStorage.getItem('DL')) || [];
+   
     // ฟังก์ชันสุ่มเลข
     function generateRandomNumbers() {
       lotteryNumbers = [];
@@ -288,10 +288,7 @@
         time: timeStr
       });
       
-      // จำกัดประวัติไว้ 5 รายการ
-      if(history.length > 5) {
-        history.pop();
-      }
+      localStorage.setItem('DL', JSON.stringify(history))
       
       updateHistory();
       showAlert(`ยืนยันเลขลอตเตอรี่เรียบร้อยแล้ว: ${numbersStr}`, 'success');
@@ -390,6 +387,9 @@
     
     // สุ่มเลขเริ่มต้นเมื่อโหลดหน้า
     generateRandomNumbers();
+    window.onload = function() {
+    updateHistory();
+};
   </script>
 
 </body>

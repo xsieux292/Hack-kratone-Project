@@ -115,3 +115,153 @@ function toggleBox(){
 window.onload = function() {
     updateList();
 };
+
+////////////////////////////
+
+
+
+      // ตัวแปรเก็บเลขลอตเตอรี่
+      let lotteryNumbers = [];
+      let confirmedNumbers = [];
+      let history = JSON.parse(localStorage.getItem('DLlotteryNumbers')) || []
+      
+      // ฟังก์ชันสุ่มเลข
+      function generateRandomNumbers() {
+        lotteryNumbers = [];
+        for(let i = 0; i < 6; i++) {
+          lotteryNumbers.push(Math.floor(Math.random() * 10));
+        }
+        displayNumbers();
+        
+        // เพิ่มเอฟเฟกต์การหมุนเลข
+        const boxes = document.querySelectorAll('.number-box');
+        boxes.forEach(box => {
+          box.style.transform = 'rotateX(360deg)';
+          setTimeout(() => {
+            box.style.transform = 'rotateX(0)';
+          }, 500);
+        });
+      }
+      
+      // แสดงเลขในช่อง
+      function displayNumbers() {
+        for(let i = 0; i < 6; i++) {
+          document.getElementById(`num${i+1}`).textContent = lotteryNumbers[i];
+        }
+      }
+      
+      // ยืนยันเลข
+      function confirmNumbers() {
+        if(lotteryNumbers.length === 0) {
+          showAlert('กรุณาสุ่มเลขก่อนยืนยัน', 'error');
+          return;
+        }
+        confirmedNumbers = [...lotteryNumbers];
+        const numbersStr = confirmedNumbers.join('');
+        
+        // เพิ่มในประวัติ
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'});
+        history.unshift({
+          numbers: numbersStr,
+          time: timeStr
+        });
+        localStorage.setItem('DLlotteryNumbers', JSON.stringify(history))
+        updateHistory();
+        showAlert(`ยืนยันเลขลอตเตอรี่เรียบร้อยแล้ว: ${numbersStr}`, 'success');
+      }
+      
+      // ล้างเลข
+      function clearNumbers() {
+        lotteryNumbers = [];
+        for(let i = 1; i <= 6; i++) {
+          document.getElementById(`num${i}`).textContent = '';
+        }
+      }
+      
+      // ดูฉลาก
+      function viewLabel() {
+        if(confirmedNumbers.length === 0) {
+          showAlert('คุณยังไม่ได้ยืนยันเลขลอตเตอรี่', 'error');
+        } else {
+          const numbersStr = confirmedNumbers.join('');
+          showAlert(`เลขลอตเตอรี่ของคุณ: ${numbersStr}`, 'info');
+        }
+      }
+      
+      // อัพเดทประวัติ
+      function updateHistory() {
+        const historyList = document.getElementById('historyList');
+        historyList.innerHTML = '';
+        
+        history.forEach(item => {
+          const historyItem = document.createElement('div');
+          historyItem.className = 'history-item flex justify-between items-center p-3 bg-white rounded-lg shadow';
+          historyItem.innerHTML = `
+            <span class="font-medium">${item.numbers}</span>
+            <span class="text-gray-500 text-sm">${item.time}</span>
+          `;
+          historyList.appendChild(historyItem);
+        });
+      }
+      
+      // นับถอยหลัง
+      function updateCountdown() {
+        const now = new Date();
+        const nextHour = new Date();
+        nextHour.setHours(now.getHours() + 1);
+        nextHour.setMinutes(0);
+        nextHour.setSeconds(0);
+        
+        const diff = nextHour - now;
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+        
+        document.getElementById('countdown').textContent = 
+          `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      }
+      
+      // แสดง Alert
+      function showAlert(message, type) {
+        const alertBox = document.createElement('div');
+        alertBox.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg text-white ${
+          type === 'error' ? 'bg-red-500' : 
+          type === 'success' ? 'bg-green-500' : 
+          'bg-blue-500'
+        }`;
+        alertBox.textContent = message;
+        document.body.appendChild(alertBox);
+        
+        setTimeout(() => {
+          alertBox.remove();
+        }, 3000);
+      }
+      
+      // สุ่มเลขรางวัล
+      function generatePrizes() {
+        for(let i = 1; i <= 5; i++) {
+          let prize = '';
+          for(let j = 0; j < 6; j++) {
+            prize += Math.floor(Math.random() * 10);
+          }
+          document.getElementById(`prize${i}`).textContent = prize;
+        }
+      }
+      
+      // ตั้งค่าปุ่ม
+      document.getElementById('randomBtn').addEventListener('click', generateRandomNumbers);
+      document.getElementById('confirmBtn').addEventListener('click', confirmNumbers);
+      document.getElementById('clearBtn').addEventListener('click', clearNumbers);
+      document.getElementById('viewLabel').addEventListener('click', viewLabel);
+      
+      // อัพเดทนับถอยหลังทุกวินาที
+      setInterval(updateCountdown, 1000);
+      updateCountdown(); // เรียกครั้งแรกเพื่อแสดงผลทันที
+      
+      // สุ่มเลขรางวัลเมื่อโหลดหน้า
+      generatePrizes();
+      
+      // สุ่มเลขเริ่มต้นเมื่อโหลดหน้า
+      generateRandomNumbers();
+  
