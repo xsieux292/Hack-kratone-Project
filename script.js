@@ -8,7 +8,6 @@ const btn_show = document.getElementByClass('btn_show')
 const btn_hide = document.getElementByClass('btn_hide')
 
 
-
 //ใส่Evenเมื่อกดrandom
 btn_ramdom_num.addEventListener('submit', RandomNumberInput)
 
@@ -29,7 +28,7 @@ function RandomNumberInput(e){
 }
 
 //ตัวแปรเก็บข้อมูลที่ได้รายการซื้อหวย
-let Datalist=[]
+let  Datalist = JSON.parse(localStorage.getItem('DLlotteryNumbers')) || [];
 
  //ฟังก์ชันสำหรับใส่ค่าที่ป้อนลงในลิสต์
 function AddItemToList(e){
@@ -39,6 +38,7 @@ function AddItemToList(e){
     }else{
         const num_input = Number(Array.from(text_input).join(''))
         Datalist.push(num_input)
+        localStorage.getItem('DLlotteryNumbers',JSON.stringify(Datalist))
         updateList();
         text_input.map(text => text.value = '');
     }
@@ -111,3 +111,7 @@ const generateRandomNumber = () => Math.floor(Math.random() * 900000) + 100000;
 function toggleBox(){
     const box_list = document.getElementById('box_list').classList.toggle("active");
 }
+
+window.onload = function() {
+    updateList();
+};
