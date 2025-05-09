@@ -7,6 +7,8 @@ const btn_summit = document.getElementById('btn_summit')
 const btn_show = document.getElementByClass('btn_show')
 const btn_hide = document.getElementByClass('btn_hide')
 
+
+
 //ใส่Evenเมื่อกดrandom
 btn_ramdom_num.addEventListener('submit', RandomNumberInput)
 
@@ -61,13 +63,35 @@ function updateList(){
     }
 }
 
-/*
-//ฟังก์ชันสำหรับเช็คผล  (ยังไม่ได้ทำ)
+
+//ฟังก์ชันสำหรับเช็คผล 
 function CheckResult(){
-    const num_input = Number(Array.from(text_input).join(''))
     const LotteryResult=GetLotteryResult()
+    const winningLotteryNumbers=[]
+
+    //นำหวยที่ถูกไปเก็บใน Arr winningLotteryNumbers
+    for (const prizeType in LotteryResult) {
+        if (LotteryResult.hasOwnProperty(prizeType)) {
+            const winningNumbers = LotteryResult[prizeType];
+            // สำหรับแต่ละหมายเลขรางวัล
+            for (let i = 0; i < winningNumbers.length; i++) {
+                const winningNumber = winningNumbers[i];
+                const matchedData = Datalist.filter(number => number === winningNumber);
+                if (matchedData.length > 0) {
+                    winningLotteryNumbers.push(...matchedData)
+                }
+            }
+        }
+    }
+
+    if(winningLotteryNumbers.length > 0){
+        
+    }else{
+        
+    }
+
 }
-*/
+
 
 //ฟังก์ชันสำหรับสร้างจำนวนชุดของหวยว่ามีกี่ชุด p1, p2, p3, p4, p5, pdf3, pdl3, pdl2
 const GetLotteryResult = () => {
@@ -82,11 +106,6 @@ const GetLotteryResult = () => {
 
 //ฟังก์ชันสำหรับสุ่มตัวเลขหวย 6 ตัว
 const generateRandomNumber = () => Math.floor(Math.random() * 900000) + 100000;
-
-//ฟังก์ชันสำหรับสร้าง ID
-function autoID(){
-    return Math.floor(Math.random()*1000000)
-}
 
 //ฟังก์ชันสำหรับเปลี่ยน Class เพื่อแสดงรายกการ
 function toggleBox(){
