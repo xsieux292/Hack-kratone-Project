@@ -1,129 +1,8 @@
-//รับค่าจากแต่ละElement
-const btn_ramdom_num = document.getElementById('btn_random')
-
-const text_input = document.querySelectorAll('.text_input')
-const btn_summit = document.getElementById('btn_summit')
-
-const btn_show = document.getElementByClass('btn_show')
-const btn_hide = document.getElementByClass('btn_hide')
-
-
-//ใส่Evenเมื่อกดrandom
-btn_ramdom_num.addEventListener('submit', RandomNumberInput)
-
-//ใส่Evenเมื่อsummit
-btn_summit.addEventListener('submit', AddItemToList)
-
-//ใส่Evenเมื่อกดแสดง และกดซ่อน
-btn_show.addEventListener('submit',toggleBox)
-btn_hide.addEventListener('submit',toggleBox)
-
-//ฟังก์ชันสำหรับสุ่มค่าและเปลี่ยนค่าในปุ่มinput
-function RandomNumberInput(e){
-    e.preventDefault()
-    const number_arr = generateRandomNumber().toString().split('').map(Number)
-    text_input.forEach((text, index) => {
-        text.value = number_arr[index]; 
-    });
-}
-
-//ตัวแปรเก็บข้อมูลที่ได้รายการซื้อหวย
-let  Datalist = JSON.parse(localStorage.getItem('DLlotteryNumbers')) || [];
-
- //ฟังก์ชันสำหรับใส่ค่าที่ป้อนลงในลิสต์
-function AddItemToList(e){
-    e.preventDefault()
-    if([...text_input].some(text_input => text_input.value.trim() == '')){
-        alert("Please enter complete information.")
-    }else{
-        const num_input = Number(Array.from(text_input).join(''))
-        Datalist.push(num_input)
-        localStorage.getItem('DLlotteryNumbers',JSON.stringify(Datalist))
-        updateList();
-        text_input.map(text => text.value = '');
-    }
-}
-
-//ฟังก์ชันสำหรับอัพเดทรายการเมื่อกดปุ่ม
-function updateList(){
-    // ล้างรายการก่อน
-    const listElement = document.getElementById('objectList')
-    listElement.innerHTML = '' 
-    const counts = {}
-
-    //นับlistที่ซ้ำ
-    Datalist.forEach(id => {
-        counts[id] = (counts[id] || 0) + 1;
-    });
-    //แสดงผล
-    for (const id in counts) {
-        const listItem = document.createElement('li');
-        listItem.textContent = `หมายเลขหวย: ${id} - จำนวน: ${counts[id]} ใบ`;
-        listElement.appendChild(listItem);
-    }
-}
-
-
-//ฟังก์ชันสำหรับเช็คผล 
-function CheckResult(){
-    const LotteryResult=GetLotteryResult()
-    const winningLotteryNumbers=[]
-
-    //นำหวยที่ถูกไปเก็บใน Arr winningLotteryNumbers
-    for (const prizeType in LotteryResult) {
-        if (LotteryResult.hasOwnProperty(prizeType)) {
-            const winningNumbers = LotteryResult[prizeType];
-            // สำหรับแต่ละหมายเลขรางวัล
-            for (let i = 0; i < winningNumbers.length; i++) {
-                const winningNumber = winningNumbers[i];
-                const matchedData = Datalist.filter(number => number === winningNumber);
-                if (matchedData.length > 0) {
-                    winningLotteryNumbers.push(...matchedData)
-                }
-            }
-        }
-    }
-    if(winningLotteryNumbers.length > 0){
-        
-    }else{
-        
-    }
-
-}
-
-
-//ฟังก์ชันสำหรับสร้างจำนวนชุดของหวยว่ามีกี่ชุด p1, p2, p3, p4, p5, pdf3, pdl3, pdl2
-const GetLotteryResult = () => {
-    const number_prize = [1, 1, 1, 1 ,1, ];
-    const prizeTypes = ['prize_1', 'prize_2', 'prize_3', 'prize_4', 'prize_5'];
-  
-    return prizeTypes.reduce((acc, prize, index) => {
-      acc[prize] = Array.from({ length: number_prize[index] }, generateRandomNumber);
-      return acc;
-    }, {});
-};
-
-//ฟังก์ชันสำหรับสุ่มตัวเลขหวย 6 ตัว
-const generateRandomNumber = () => Math.floor(Math.random() * 900000) + 100000;
-
-//ฟังก์ชันสำหรับเปลี่ยน Class เพื่อแสดงรายกการ
-function toggleBox(){
-    const box_list = document.getElementById('box_list').classList.toggle("active");
-}
-
-window.onload = function() {
-    updateList();
-};
-
-////////////////////////////
-
-
-
       // ตัวแปรเก็บเลขลอตเตอรี่
       let lotteryNumbers = [];
       let confirmedNumbers = [];
-      let history = JSON.parse(localStorage.getItem('DLlotteryNumbers')) || []
-      
+      let history = JSON.parse(localStorage.getItem('DL')) || [];
+     
       // ฟังก์ชันสุ่มเลข
       function generateRandomNumbers() {
         lotteryNumbers = [];
@@ -145,12 +24,18 @@ window.onload = function() {
       // แสดงเลขในช่อง
       function displayNumbers() {
         for(let i = 0; i < 6; i++) {
-          document.getElementById(`num${i+1}`).textContent = lotteryNumbers[i];
+          document.getElementById(`inputnum${i+1}`).value = lotteryNumbers[i];
         }
       }
       
       // ยืนยันเลข
       function confirmNumbers() {
+        const input = document.querySelectorAll('.input')
+        lotteryNumbers = Array.from(input).map(input => input.value);
+        if(lotteryNumbers.some(num => num > 9 || num < 0)) {
+          showAlert('กรุณากรอกเลข 0-9 เท่านั้น', 'error');
+          return;
+        }
         if(lotteryNumbers.length === 0) {
           showAlert('กรุณาสุ่มเลขก่อนยืนยัน', 'error');
           return;
@@ -165,7 +50,9 @@ window.onload = function() {
           numbers: numbersStr,
           time: timeStr
         });
-        localStorage.setItem('DLlotteryNumbers', JSON.stringify(history))
+        
+        localStorage.setItem('DL', JSON.stringify(history))
+        
         updateHistory();
         showAlert(`ยืนยันเลขลอตเตอรี่เรียบร้อยแล้ว: ${numbersStr}`, 'success');
       }
@@ -174,17 +61,7 @@ window.onload = function() {
       function clearNumbers() {
         lotteryNumbers = [];
         for(let i = 1; i <= 6; i++) {
-          document.getElementById(`num${i}`).textContent = '';
-        }
-      }
-      
-      // ดูฉลาก
-      function viewLabel() {
-        if(confirmedNumbers.length === 0) {
-          showAlert('คุณยังไม่ได้ยืนยันเลขลอตเตอรี่', 'error');
-        } else {
-          const numbersStr = confirmedNumbers.join('');
-          showAlert(`เลขลอตเตอรี่ของคุณ: ${numbersStr}`, 'info');
+          document.getElementById(`inputnum${i}`).value = '';
         }
       }
       
@@ -192,7 +69,6 @@ window.onload = function() {
       function updateHistory() {
         const historyList = document.getElementById('historyList');
         historyList.innerHTML = '';
-        
         history.forEach(item => {
           const historyItem = document.createElement('div');
           historyItem.className = 'history-item flex justify-between items-center p-3 bg-white rounded-lg shadow';
@@ -248,11 +124,51 @@ window.onload = function() {
         }
       }
       
+      const GetLotteryResult = () => {
+      const number_prize = [1, 1, 1, 1 ,1, ];
+      const prizeTypes = ['prize_1', 'prize_2', 'prize_3', 'prize_4', 'prize_5'];
+    
+      return prizeTypes.reduce((acc, prize, index) => {
+        acc[prize] = Array.from({ length: number_prize[index] }, generateRandomNumber);
+        return acc;
+      }, {});
+  };
+  
+  const resultnumber =[]
+  function getResult(){
+    const prizeResults = {};
+    for (let i = 1; i <= 5; i++) {
+      const randomPrizeNumber = Array.from({ length: 6 }, () => Math.floor(Math.random() * 10)).join('');
+      resultnumber.push(randomPrizeNumber);
+      prizeResults[`รางวัลที่ ${i}`] = randomPrizeNumber;
+      document.getElementById(`prize${i}`).textContent = randomPrizeNumber; // Update the prize display
+    }
+    checkIfWon()
+  }
+  
+  function checkIfWon() {
+    let isWinner = false;
+    for (let i = 1; i <= 5; i++) {
+      const prizeNumber = resultnumber[i - 1];
+      for (const item in history) {
+        const numcheck = history[item].numbers;
+        if (numcheck === prizeNumber) {
+          alert(`ยินดีด้วย! คุณถูกรางวัลที่ ${i}: ${prizeNumber}`);
+          isWinner = true;
+          break;
+        }
+      }
+    }
+    if (!isWinner) {
+      alert("เสียใจด้วย คุณไม่ถูกรางวัล");
+    }
+  }
+  
       // ตั้งค่าปุ่ม
       document.getElementById('randomBtn').addEventListener('click', generateRandomNumbers);
       document.getElementById('confirmBtn').addEventListener('click', confirmNumbers);
       document.getElementById('clearBtn').addEventListener('click', clearNumbers);
-      document.getElementById('viewLabel').addEventListener('click', viewLabel);
+      document.getElementById('viewLabel').addEventListener('click', getResult);
       
       // อัพเดทนับถอยหลังทุกวินาที
       setInterval(updateCountdown, 1000);
@@ -263,4 +179,6 @@ window.onload = function() {
       
       // สุ่มเลขเริ่มต้นเมื่อโหลดหน้า
       generateRandomNumbers();
-  
+      window.onload = function() {
+      updateHistory();
+  };
