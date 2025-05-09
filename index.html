@@ -78,7 +78,7 @@
     <div class="flex items-center gap-6">
       <nav class="flex gap-6">
         <a href="#" class="text-gray-700 hover:text-red-600">หน้าแรก</a>
-        <a href="#" class="text-gray-700 hover:text-red-600">ผaazs  2wรางวัล</a>
+        <a href="#" class="text-gray-700 hover:text-red-600">ผลรางวัล</a>
         <a href="#" class="text-gray-700 hover:text-red-600">ประวัติการซื้อ</a>
         <a href="#" class="text-gray-700 hover:text-red-600">วิธีเล่น</a>
       </nav>
@@ -184,9 +184,9 @@
         <div class="mt-8">
           <h3 class="text-xl font-semibold mb-4 text-gray-800">สถิติการออกรางวัล</h3>
           <div class="bg-white p-4 rounded-lg shadow">
-            <p class="mb-2">เลขที่ออกบ่อยที่สุด: <span class="font-semibold">5</span></p>
-            <p class="mb-2">เลขที่ออกน้อยที่สุด: <span class="font-semibold">0</span></p>
-            <p class="mb-2">เลขที่ยังไม่ออกนานที่สุด: <span class="font-semibold">9</span></p>
+            <p class="mb-2">เลขที่ออกบ่อยที่สุด: <span class="font-semibold"></span></p>
+            <p class="mb-2">เลขที่ออกน้อยที่สุด: <span class="font-semibold"></span></p>
+            <p class="mb-2">เลขที่ยังไม่ออกนานที่สุด: <span class="font-semibold"></span></p>
           </div>
         </div>
 
@@ -235,6 +235,10 @@
     function confirmNumbers() {
       const input = document.querySelectorAll('.input')
       lotteryNumbers = Array.from(input).map(input => input.value);
+      if(lotteryNumbers.some(num => num > 9 || num < 0)) {
+        showAlert('กรุณากรอกเลข 0-9 เท่านั้น', 'error');
+        return;
+      }
       if(lotteryNumbers.length === 0) {
         showAlert('กรุณาสุ่มเลขก่อนยืนยัน', 'error');
         return;
