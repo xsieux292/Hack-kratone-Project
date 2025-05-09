@@ -105,7 +105,13 @@
   <div id="login" class="hidden fixed  inset-0 bg-gray-900 bg-opacity-50 z-50">
     <div class="flex items-center justify-center h-screen">
       <div class="bg-white shadow-lg rounded-lg p-8 w-96">
-        <h2 class="text-2xl font-bold text-center mb-6">เข้าสู่ระบบ</h2>
+
+        <div class="flex justify-between items-center mb-4">
+          <h1 class="text-2xl font-bold text-gray-800">เข้าสู่ระบบ</h1>
+          <button id="login-closeBtn" class="text-gray-500 hover:text-red-600 p-2 rounded-lg transition-colors duration-300 bg-red-200">X</button>
+
+        </div>
+
         <form id="loginForm">
           <div class="mb-4">
             <label for="username" class="block text-gray-700">ชื่อผู้ใช้</label>
@@ -396,20 +402,24 @@ function DeleteHistory() {
   updateHistory();
   showAlert('ลบประวัติการทำรายการเรียบร้อยแล้ว', 'success');
 }
-
-function toggleVisibility(element) {
-  element = document.getElementById('menu');
-  if (element.classList.contains('hidden')) {
-    // แปลงจาก 'hidden' เป็น 'visibility'
-    element.classList.remove('hidden');
-    element.style.visibility = 'visible';
-  } else {
-    // แปลงจาก 'visibility' กลับเป็น 'hidden'
-    element.style.visibility = 'hidden';
-  }
+function toggleMenu() {
+  const menu = document.getElementById('menu');
+      if (menu.classList.contains('hidden')) {
+        menu.classList.remove('hidden');
+        menu.style.visibility = 'visible';
+      } else {
+        menu.classList.add('hidden');
+        menu.style.visibility = 'hidden';
+      }
 }
-
-
+function toggleLogin() {
+  const loginForm = document.getElementById('login');
+      if (loginForm.classList.contains('hidden')) {
+        loginForm.classList.remove('hidden');
+      } else {
+        loginForm.classList.add('hidden');
+      }
+}
 
     // ตั้งค่าปุ่ม
     document.getElementById('randomBtn').addEventListener('click', generateRandomNumbers);
@@ -417,8 +427,15 @@ function toggleVisibility(element) {
     document.getElementById('clearBtn').addEventListener('click', clearNumbers);
     document.getElementById('viewLabel').addEventListener('click', getResult);
     document.getElementById('deletehistory').addEventListener('click', DeleteHistory);
+    document.getElementById('userBtn').addEventListener('click', toggleMenu);
+    document.getElementById('login-outBtn').addEventListener('click', toggleLogin);
+    document.getElementById('login-closeBtn').addEventListener('click', function() {
+    toggleLogin();
+    toggleMenu();
+    });
+    //ยังไม่ได้ทำระบบ Backend ด้วย LocalStorage
 
-    
+
     // อัพเดทนับถอยหลังทุกวินาที
     setInterval(updateCountdown, 1000);
     updateCountdown(); // เรียกครั้งแรกเพื่อแสดงผลทันที
