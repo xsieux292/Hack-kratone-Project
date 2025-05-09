@@ -337,10 +337,12 @@
     }, {});
 };
 
+const resultnumber =[]
 function getResult(){
   const prizeResults = {};
   for (let i = 1; i <= 5; i++) {
     const randomPrizeNumber = Array.from({ length: 6 }, () => Math.floor(Math.random() * 10)).join('');
+    resultnumber.push(randomPrizeNumber);
     prizeResults[`รางวัลที่ ${i}`] = randomPrizeNumber;
     document.getElementById(`prize${i}`).textContent = randomPrizeNumber; // Update the prize display
   }
@@ -348,18 +350,18 @@ function getResult(){
 }
 
 function checkIfWon() {
-  numcheck = numbers(lotteryNumbers.join(''))
-
   let isWinner = false;
   for (let i = 1; i <= 5; i++) {
-    const prizeNumber = document.getElementById(`prize${i}`).textContent;
-    if (numcheck === prizeNumber) {
-      alert(`ยินดีด้วย! คุณถูกรางวัลที่ ${i}: ${prizeNumber}`);
-      isWinner = true;
-      break;
+    const prizeNumber = resultnumber[i - 1];
+    for (const item in history) {
+      const numcheck = history[item].numbers;
+      if (numcheck === prizeNumber) {
+        alert(`ยินดีด้วย! คุณถูกรางวัลที่ ${i}: ${prizeNumber}`);
+        isWinner = true;
+        break;
+      }
     }
   }
-
   if (!isWinner) {
     alert("เสียใจด้วย คุณไม่ถูกรางวัล");
   }
