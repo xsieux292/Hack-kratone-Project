@@ -83,7 +83,6 @@ function CheckResult(){
             }
         }
     }
-
     if(winningLotteryNumbers.length > 0){
         
     }else{
