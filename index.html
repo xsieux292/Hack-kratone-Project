@@ -51,6 +51,20 @@
     .history-item:hover {
       background-color: #f1f5f9;
     }
+    input{
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      font-size: 2rem;
+      border: none;
+      background-color: transparent;
+      outline: none;
+      color: #4b5563;
+      font-weight: bold;
+      border-radius: 10px;
+      padding: 0.5rem;
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+    }
   </style>
 </head>
 <body class="bg-gray-50 flex flex-col min-h-screen">
@@ -64,7 +78,7 @@
     <div class="flex items-center gap-6">
       <nav class="flex gap-6">
         <a href="#" class="text-gray-700 hover:text-red-600">หน้าแรก</a>
-        <a href="#" class="text-gray-700 hover:text-red-600">ผลรางวัล</a>
+        <a href="#" class="text-gray-700 hover:text-red-600">ผaazs  2wรางวัล</a>
         <a href="#" class="text-gray-700 hover:text-red-600">ประวัติการซื้อ</a>
         <a href="#" class="text-gray-700 hover:text-red-600">วิธีเล่น</a>
       </nav>
@@ -88,12 +102,12 @@
 
         <!-- ช่องตัวเลข -->
         <div class="flex justify-center gap-6 mt-8 mb-12">
-          <div id="num1" class="number-box w-20 h-20 bg-gray-200 rounded-lg shadow-md"></div>
-          <div id="num2" class="number-box w-20 h-20 bg-gray-200 rounded-lg shadow-md"></div>
-          <div id="num3" class="number-box w-20 h-20 bg-gray-200 rounded-lg shadow-md"></div>
-          <div id="num4" class="number-box w-20 h-20 bg-gray-200 rounded-lg shadow-md"></div>
-          <div id="num5" class="number-box w-20 h-20 bg-gray-200 rounded-lg shadow-md"></div>
-          <div id="num6" class="number-box w-20 h-20 bg-gray-200 rounded-lg shadow-md"></div>
+          <div id="num1" class="number-box w-20 h-20 bg-gray-200 rounded-lg shadow-md"><input id="inputnum1" class="input" type="number"></div>
+          <div id="num2" class="number-box w-20 h-20 bg-gray-200 rounded-lg shadow-md"><input id="inputnum2" class="input" type="number"></div>
+          <div id="num3" class="number-box w-20 h-20 bg-gray-200 rounded-lg shadow-md"><input id="inputnum3" class="input" type="number"></div>
+          <div id="num4" class="number-box w-20 h-20 bg-gray-200 rounded-lg shadow-md"><input id="inputnum4" class="input" type="number"></div>
+          <div id="num5" class="number-box w-20 h-20 bg-gray-200 rounded-lg shadow-md"><input id="inputnum5" class="input" type="number"></div>
+          <div id="num6" class="number-box w-20 h-20 bg-gray-200 rounded-lg shadow-md"><input id="inputnum6" class="input" type="number"></div>
         </div>
 
         <!-- ปุ่ม -->
@@ -116,7 +130,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
             </svg>
-            ดูฉลากของคุณ
+            ดูผลรางวัลของคุณ
           </button>
           <p class="text-lg mt-4 text-gray-700">
             ผลรางวัลจะออกในอีก <span id="countdown" class="font-bold text-red-600">0:00:00</span>
@@ -267,12 +281,14 @@
     // แสดงเลขในช่อง
     function displayNumbers() {
       for(let i = 0; i < 6; i++) {
-        document.getElementById(`num${i+1}`).textContent = lotteryNumbers[i];
+        document.getElementById(`inputnum${i+1}`).value = lotteryNumbers[i];
       }
     }
     
     // ยืนยันเลข
     function confirmNumbers() {
+      const input = document.querySelectorAll('.input')
+      lotteryNumbers = Array.from(input).map(input => input.value);
       if(lotteryNumbers.length === 0) {
         showAlert('กรุณาสุ่มเลขก่อนยืนยัน', 'error');
         return;
@@ -298,17 +314,7 @@
     function clearNumbers() {
       lotteryNumbers = [];
       for(let i = 1; i <= 6; i++) {
-        document.getElementById(`num${i}`).textContent = '';
-      }
-    }
-    
-    // ดูฉลาก
-    function viewLabel() {
-      if(confirmedNumbers.length === 0) {
-        showAlert('คุณยังไม่ได้ยืนยันเลขลอตเตอรี่', 'error');
-      } else {
-        const numbersStr = confirmedNumbers.join('');
-        showAlert(`เลขลอตเตอรี่ของคุณ: ${numbersStr}`, 'info');
+        document.getElementById(`inputnum${i}`).value = '';
       }
     }
     
@@ -316,7 +322,6 @@
     function updateHistory() {
       const historyList = document.getElementById('historyList');
       historyList.innerHTML = '';
-      
       history.forEach(item => {
         const historyItem = document.createElement('div');
         historyItem.className = 'history-item flex justify-between items-center p-3 bg-white rounded-lg shadow';
@@ -372,11 +377,49 @@
       }
     }
     
+    const GetLotteryResult = () => {
+    const number_prize = [1, 1, 1, 1 ,1, ];
+    const prizeTypes = ['prize_1', 'prize_2', 'prize_3', 'prize_4', 'prize_5'];
+  
+    return prizeTypes.reduce((acc, prize, index) => {
+      acc[prize] = Array.from({ length: number_prize[index] }, generateRandomNumber);
+      return acc;
+    }, {});
+};
+
+function getResult(){
+  const prizeResults = {};
+  for (let i = 1; i <= 5; i++) {
+    const randomPrizeNumber = Array.from({ length: 6 }, () => Math.floor(Math.random() * 10)).join('');
+    prizeResults[`รางวัลที่ ${i}`] = randomPrizeNumber;
+    document.getElementById(`prize${i}`).textContent = randomPrizeNumber; // Update the prize display
+  }
+  checkIfWon()
+}
+
+function checkIfWon() {
+  numcheck = numbers(lotteryNumbers.join(''))
+
+  let isWinner = false;
+  for (let i = 1; i <= 5; i++) {
+    const prizeNumber = document.getElementById(`prize${i}`).textContent;
+    if (numcheck === prizeNumber) {
+      alert(`ยินดีด้วย! คุณถูกรางวัลที่ ${i}: ${prizeNumber}`);
+      isWinner = true;
+      break;
+    }
+  }
+
+  if (!isWinner) {
+    alert("เสียใจด้วย คุณไม่ถูกรางวัล");
+  }
+}
+
     // ตั้งค่าปุ่ม
     document.getElementById('randomBtn').addEventListener('click', generateRandomNumbers);
     document.getElementById('confirmBtn').addEventListener('click', confirmNumbers);
     document.getElementById('clearBtn').addEventListener('click', clearNumbers);
-    document.getElementById('viewLabel').addEventListener('click', viewLabel);
+    document.getElementById('viewLabel').addEventListener('click', getResult);
     
     // อัพเดทนับถอยหลังทุกวินาที
     setInterval(updateCountdown, 1000);
