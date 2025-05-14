@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="stylesheet" href="src/output.css">
+  <link rel="stylesheet" href="output.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Share+Tech&display=swap');
     *{
@@ -12,7 +12,7 @@
   </style>
   <title>ระบบลองลุ้นลอตเตอรี่ออนไลน์</title>
 </head>
-<body class="bg-[#e1e6fc] flex flex-col min-h-screen">
+<body class="bg-gradient-to-b from-[#e1e6fc] to-[#fad6f8] flex flex-col min-h-screen">
 
   <!-- แถบบน -->
   <header class="flex items-center justify-between px-12 py-6 container mx-auto w-full">
@@ -21,9 +21,9 @@
       <h1 class="text-4xl font-bold text-gray-600 border-b-4 border-gray-600">ลองลุ้น888</h1>
     </div>
     <div class="flex items-center gap-6">
-      <button id="userBtn" >
+      <button id="userBtn">
         <div class="flex items-center gap-3 bg-white px-4 py-2 rounded-full" >
-          <div class="w-8 h-8 bg-purple-300 rounded-full flex items-center justify-center text-white font-bold">U</div>
+          <div id="usernameDisplay" class="w-8 h-8 bg-purple-300 rounded-full flex items-center justify-center text-white font-bold">U</div>
           <span id="username" class="font-medium text-gray-700">Username</span>
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -42,24 +42,24 @@
   <!-- หน้าล็อคอิน-->
   <div id="login" class="hidden fixed  inset-0 bg-gray-900 bg-opacity-50 z-50">
     <div class="flex items-center justify-center h-screen">
-      <div class="bg-white shadow-lg rounded-lg p-8 w-96">
+      <div class="bg-white shadow-lg rounded-2xl p-8 w-96">
 
         <div class="flex justify-between items-center mb-4">
           <h1 class="text-2xl font-bold text-gray-800">เข้าสู่ระบบ</h1>
-          <button id="login-closeBtn" class="text-gray-500 hover:text-red-600 p-2 rounded-lg transition-colors duration-300 bg-red-200">X</button>
+          <button id="login-closeBtn" class="btn w-6 h-6 text-red-800 hover:text-red-600 rounded-lg transition-colors duration-300 bg-red-200">X</button>
 
         </div>
 
-        <form id="loginForm">
+        <form id="loginForm" class="flex flex-col">
           <div class="mb-4">
             <label for="username" class="block text-gray-700">ชื่อผู้ใช้</label>
-            <input type="text" id="username" class="w-full border border-gray-300 rounded-lg p-2" required>
+            <input type="text" id="usernameInput" class="w-full border border-gray-300 rounded-lg p-2" required>
           </div>
           <div class="mb-4">
             <label for="password" class="block text-gray-700">รหัสผ่าน</label>
-            <input type="password" id="password" class="w-full border border-gray-300 rounded-lg p-2" required>
+            <input type="password" id="passwordInput" class="w-full border border-gray-300 rounded-lg p-2" required>
           </div>
-          <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg">เข้าสู่ระบบ</button>
+          <button id="loginBtn" type="submit" class="btn self-center w-1/2 bg-[rgb(94,209,255)] hover:bg-[rgb(54,150,210)] text-white py-2 rounded-lg">เข้าสู่ระบบ</button>
         </form>
       </div>
     </div>
@@ -106,7 +106,7 @@
             ลองลุ้นได้เลย
           </button>
           <p class="text-lg mt-4 text-gray-700">
-            ผลรางวัลจะออกในอีก <span id="countdown" class="font-bold text-red-600">0:00:00</span>
+            จะรีเซ็ตในอีก <span id="countdown" class="font-bold text-red-600">0:00:00</span>
           </p>
         </div>
 
@@ -121,6 +121,22 @@
 
       <!-- ส่วนขวา - ผลรางวัล -->
       <div class="result-section">
+
+        <!-- ข้อมูลเพิ่มเติม -->
+        <div >
+          <h3 class="text-xl font-semibold mb-4 text-gray-800">สถิติการออกรางวัล</h3>
+          <p class="my-8 text-center">รางวัลออกยากแบบนี้ <u class="text-red-600">ไม่เล่นแล้ว</u></p>
+          <div class="bg-white p-4 rounded-lg shadow">
+            <h1>อัตราการถูกรางวัล</h1>
+            <p id="winRate" class="text-4xl text-center font-bold text-red-600">100%</p>
+          </div>
+        </div>
+
+        <!-- โฆษณา -->
+        <div class="my-8 bg-yellow-100 border border-yellow-300 rounded-lg p-4 text-center">
+          <h4 class="font-bold text-lg text-yellow-800 mb-2">โฆษณา</h4>
+        </div>
+
         <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">ผลรางวัลล่าสุด</h2>
 
         <!-- เลขที่ออก -->
@@ -147,24 +163,9 @@
           </div>
         </div>
 
-        <!-- ข้อมูลเพิ่มเติม -->
-        <div class="mt-8">
-          <h3 class="text-xl font-semibold mb-4 text-gray-800">สถิติการออกรางวัล</h3>
-          <p class="my-8 text-center">รางวัลออกยากแบบนี้ <u class="text-red-600">ไม่เล่นแล้ว</u></p>
-          <div class="bg-white p-4 rounded-lg shadow">
-            <p class="mb-2">เลขที่ออกบ่อยที่สุด: <span class="font-semibold"></span></p>
-            <p class="mb-2">เลขที่ออกน้อยที่สุด: <span class="font-semibold"></span></p>
-            <p class="mb-2">เลขที่ยังไม่ออกนานที่สุด: <span class="font-semibold"></span></p>
-          </div>
-        </div>
-
-        <!-- โฆษณา -->
-        <div class="mt-8 bg-yellow-100 border border-yellow-300 rounded-lg p-4 text-center">
-          <h4 class="font-bold text-lg text-yellow-800 mb-2">โฆษณา</h4>
-        </div>
       </div>
     </div>
   </main>
-  <script src="src/script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
