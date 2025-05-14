@@ -3,8 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="stylesheet" href="/src/output.css">
-  <title>ระบบสุ่มเลขลอตเตอรี่ออนไลน์</title>
+  <link rel="stylesheet" href="src/output.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Share+Tech&display=swap');
+    *{
+      font-family: 'Kanit', sans-serif;
+    }
+  </style>
+  <title>ระบบลองลุ้นลอตเตอรี่ออนไลน์</title>
 </head>
 <body class="bg-[#e1e6fc] flex flex-col min-h-screen">
 
@@ -12,7 +18,7 @@
   <header class="flex items-center justify-between px-12 py-6 container mx-auto w-full">
     <div class="flex items-center">
       <div class="w-12 h-12 bg-purple-300 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">888</div>
-      <h1 class="text-xl font-bold text-gray-600 border-b-4 border-gray-600">ลองลุ้น888</h1>
+      <h1 class="text-4xl font-bold text-gray-600 border-b-4 border-gray-600">ลองลุ้น888</h1>
     </div>
     <div class="flex items-center gap-6">
       <button id="userBtn" >
@@ -80,13 +86,13 @@
         <!-- ปุ่ม -->
         <div class="flex justify-center gap-8 mt-8 mb-12">
           <button id="randomBtn" class="btn px-10 py-4 bg-[rgb(193,133,250)] hover:bg-[rgb(159,76,235)] text-white text-xl rounded-lg shadow">
-            สุ่มเลขใหม่
+            สุ่มเลขเลย
           </button>
           <button id="confirmBtn" class="btn px-10 py-4 bg-[rgb(65,241,165)] hover:bg-[rgb(48,184,116)] text-white text-xl rounded-lg shadow">
-            ยืนยันเลขนี้
+            ยืนยันเลขนี้แล้ว
           </button>
           <button id="clearBtn" class="btn px-10 py-4 bg-[rgb(255,127,217)] hover:bg-[rgb(219,69,174)] text-white text-xl rounded-lg shadow">
-            ล้างทั้งหมด
+            ลบเลขทั้งหมด
           </button>
         </div>
 
@@ -97,7 +103,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
             </svg>
-            ดูผลรางวัลของคุณ
+            ลองลุ้นได้เลย
           </button>
           <p class="text-lg mt-4 text-gray-700">
             ผลรางวัลจะออกในอีก <span id="countdown" class="font-bold text-red-600">0:00:00</span>
@@ -106,7 +112,7 @@
 
         <!-- ประวัติการสุ่ม -->
         <div class="mt-12">
-          <h3 class="text-2xl font-semibold mb-4 text-gray-800 border-b-4 border-zinc-800  pb-2">ประวัติการสุ่มล่าสุด</h3>
+          <h3 id="history_header" class="text-2xl font-semibold mb-4 text-gray-800 border-b-4 border-zinc-800  pb-2">ประวัติหวยที่ซื้อ: <u class="text-red-500">จำนวน 0 ใบ</u></h3>
           <div id="historyList" class="space-y-3">
             <!-- จะแสดงประวัติที่นี่ -->
           </div>
@@ -159,6 +165,6 @@
       </div>
     </div>
   </main>
-  <script src="/src/script.js"></script>
+  <script src="src/script.js"></script>
 </body>
 </html>

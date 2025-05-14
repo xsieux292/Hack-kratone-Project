@@ -2,7 +2,12 @@
 module.exports = {
   content: ["./src/**/*.{html,js}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        // เพิ่มฟอนต์จาก Google Fonts
+        roboto: ['Kanit', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }

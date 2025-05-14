@@ -67,17 +67,19 @@ function clearNumbers() {
 
 // อัพเดทประวัติ
 function updateHistory() {
-    const historyList = document.getElementById('historyList');
-    historyList.innerHTML = '';
-    history.forEach(item => {
-    const historyItem = document.createElement('div');
-    historyItem.className = 'history-item flex justify-between items-center p-3 bg-white rounded-lg shadow';
-    historyItem.innerHTML = `
-        <span class="font-medium">${item.numbers}</span>
-        <span class="text-gray-500 text-sm">${item.time}</span>
-    `;
-    historyList.appendChild(historyItem);
-    });
+  const historyHeader = document.getElementById('history_header')
+  const historyList = document.getElementById('historyList');
+  historyList.innerHTML = '';
+  history.forEach(item => {
+  const historyItem = document.createElement('div');
+  historyItem.className = 'history-item flex justify-between items-center p-3 bg-white rounded-lg shadow';
+  historyItem.innerHTML = `
+      <span class="font-medium">${item.numbers}</span>
+      <span class="text-gray-500 text-sm">${item.time}</span>
+  `;
+  historyList.appendChild(historyItem);
+  });
+  historyHeader.innerHTML = `ประวัติหวยที่ซื้อ: <u class="text-red-500">จำนวน ${history.length} ใบ</u>`
 }
 
 // นับถอยหลัง
