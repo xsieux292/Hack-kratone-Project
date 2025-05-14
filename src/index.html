@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="output.css">
+  <title>ระบบสุ่มเลขลอตเตอรี่ออนไลน์</title>
+</head>
+<body class="bg-[#e1e6fc] flex flex-col min-h-screen">
+
+  <!-- แถบบน -->
+  <header class="flex items-center justify-between px-12 py-6 container mx-auto w-full">
+    <div class="flex items-center">
+      <div class="w-12 h-12 bg-purple-300 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">888</div>
+      <h1 class="text-xl font-bold text-gray-600 border-b-4 border-gray-600">ลองลุ้น888</h1>
+    </div>
+    <div class="flex items-center gap-6">
+      <button id="userBtn" >
+        <div class="flex items-center gap-3 bg-white px-4 py-2 rounded-full" >
+          <div class="w-8 h-8 bg-purple-300 rounded-full flex items-center justify-center text-white font-bold">U</div>
+          <span id="username" class="font-medium text-gray-700">Username</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </div>
+      </button>
+      <!--- กดlogin-logout--->
+      <div id="menu" class=" relative group hidden">
+        <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20">
+          <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
+            <button id="login-outBtn" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left">เข้าสู่ระบบ</button>
+          </div>
+        </div>
+      </div>
+  </header>
+  <!-- หน้าล็อคอิน-->
+  <div id="login" class="hidden fixed  inset-0 bg-gray-900 bg-opacity-50 z-50">
+    <div class="flex items-center justify-center h-screen">
+      <div class="bg-white shadow-lg rounded-lg p-8 w-96">
+
+        <div class="flex justify-between items-center mb-4">
+          <h1 class="text-2xl font-bold text-gray-800">เข้าสู่ระบบ</h1>
+          <button id="login-closeBtn" class="text-gray-500 hover:text-red-600 p-2 rounded-lg transition-colors duration-300 bg-red-200">X</button>
+
+        </div>
+
+        <form id="loginForm">
+          <div class="mb-4">
+            <label for="username" class="block text-gray-700">ชื่อผู้ใช้</label>
+            <input type="text" id="username" class="w-full border border-gray-300 rounded-lg p-2" required>
+          </div>
+          <div class="mb-4">
+            <label for="password" class="block text-gray-700">รหัสผ่าน</label>
+            <input type="password" id="password" class="w-full border border-gray-300 rounded-lg p-2" required>
+          </div>
+          <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg">เข้าสู่ระบบ</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- เนื้อหาหลัก -->
+  <main class="flex-1 container mx-auto px-12 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- ส่วนซ้าย - สุ่มเลข -->
+      <div class="lg:col-span-2 lottery-section">
+        <h2 class="text-4xl font-bold text-center text-gray-800 mb-2">ลองเล่นลอตเตอรี่เลย</h2>
+        <p class="text-sm text-center text-gray-600 mb-8 p-8 pt-0">ลอตเตอรี่นั้นอาจจะดูไม่น่าสนุกสำหรับคนที่ไม่เคยเล่น ซึ่งลอตเตอรี่นั้นมีความเสี่ยงอยู่มากมาย โอกาสถูกรางวัลก็มีน้อยยยยยยมากกกกก คนส่วนส่วนใหญ่เสียเงินกับมันไปแต่ไม่ได้อะไรเลย บางคนติดจนสูญเงินมากมาย บางคนได้จนคิดว่าจะได้อีก ดังนั้น ก่อนที่คุณจะคิดลองเล่นของจริง ลองมาเล่นเว็ปเราดูก่อนมั้ยคะ</p>
+
+        <!-- ช่องตัวเลข -->
+        <div class="flex justify-center gap-6 mt-8 mb-12 " >
+          <div id="num1" ><input id="inputnum1" class="input_num" type="number" maxlength="1"></div>
+          <div id="num2" ><input id="inputnum2" class="input_num" type="number" maxlength="1"></div>
+          <div id="num3" ><input id="inputnum3" class="input_num" type="number" maxlength="1"></div>
+          <div id="num4" ><input id="inputnum4" class="input_num" type="number" maxlength="1"></div>
+          <div id="num5" ><input id="inputnum5" class="input_num" type="number" maxlength="1"></div>
+          <div id="num6" ><input id="inputnum6" class="input_num" type="number" maxlength="1"></div> 
+        </div>
+
+        <!-- ปุ่ม -->
+        <div class="flex justify-center gap-8 mt-8 mb-12">
+          <button id="randomBtn" class="btn px-10 py-4 bg-[rgb(193,133,250)] hover:bg-[rgb(159,76,235)] text-white text-xl rounded-lg shadow">
+            สุ่มเลขใหม่
+          </button>
+          <button id="confirmBtn" class="btn px-10 py-4 bg-[rgb(65,241,165)] hover:bg-[rgb(48,184,116)] text-white text-xl rounded-lg shadow">
+            ยืนยันเลขนี้
+          </button>
+          <button id="clearBtn" class="btn px-10 py-4 bg-[rgb(255,127,217)] hover:bg-[rgb(219,69,174)] text-white text-xl rounded-lg shadow">
+            ล้างทั้งหมด
+          </button>
+        </div>
+
+        <!-- ดูฉลาก -->
+        <div class="text-center mt-8">
+          <button id="viewLabel" class="btn px-8 py-3 bg-[rgb(94,209,255)] hover:bg-[rgb(54,150,210)] text-white text-lg rounded-lg shadow inline-flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+            ดูผลรางวัลของคุณ
+          </button>
+          <p class="text-lg mt-4 text-gray-700">
+            ผลรางวัลจะออกในอีก <span id="countdown" class="font-bold text-red-600">0:00:00</span>
+          </p>
+        </div>
+
+        <!-- ประวัติการสุ่ม -->
+        <div class="mt-12">
+          <h3 class="text-2xl font-semibold mb-4 text-gray-800 border-b-4 border-zinc-800  pb-2">ประวัติการสุ่มล่าสุด</h3>
+          <div id="historyList" class="space-y-3">
+            <!-- จะแสดงประวัติที่นี่ -->
+          </div>
+          <button id="deletehistory" class="btn mt-4 px-4 py-2 bg-[rgb(255,127,217)] hover:bg-[rgb(219,69,174)] text-white rounded-lg shadow">ลบประวัติการทำรายการ</div>
+      </div>
+
+      <!-- ส่วนขวา - ผลรางวัล -->
+      <div class="result-section">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">ผลรางวัลล่าสุด</h2>
+
+        <!-- เลขที่ออก -->
+        <div class="space-y-4">
+          <div class="flex justify-between items-center p-4 bg-white rounded-lg shadow">
+            <span class="text-lg font-medium">รางวัลที่ 1:</span>
+            <span id="prize1" class="prize-number text-2xl">123456</span>
+          </div>
+          <div class="flex justify-between items-center p-4 bg-white rounded-lg shadow">
+            <span class="text-lg font-medium">รางวัลที่ 2:</span>
+            <span id="prize2" class="prize-number text-2xl">234567</span>
+          </div>
+          <div class="flex justify-between items-center p-4 bg-white rounded-lg shadow">
+            <span class="text-lg font-medium">รางวัลที่ 3:</span>
+            <span id="prize3" class="prize-number text-2xl">345678</span>
+          </div>
+          <div class="flex justify-between items-center p-4 bg-white rounded-lg shadow">
+            <span class="text-lg font-medium">รางวัลที่ 4:</span>
+            <span id="prize4" class="prize-number text-2xl">456789</span>
+          </div>
+          <div class="flex justify-between items-center p-4 bg-white rounded-lg shadow">
+            <span class="text-lg font-medium">รางวัลที่ 5:</span>
+            <span id="prize5" class="prize-number text-2xl">567890</span>
+          </div>
+        </div>
+
+        <!-- ข้อมูลเพิ่มเติม -->
+        <div class="mt-8">
+          <h3 class="text-xl font-semibold mb-4 text-gray-800">สถิติการออกรางวัล</h3>
+          <p class="my-8 text-center">รางวัลออกยากแบบนี้ <u class="text-red-600">ไม่เล่นแล้ว</u></p>
+          <div class="bg-white p-4 rounded-lg shadow">
+            <p class="mb-2">เลขที่ออกบ่อยที่สุด: <span class="font-semibold"></span></p>
+            <p class="mb-2">เลขที่ออกน้อยที่สุด: <span class="font-semibold"></span></p>
+            <p class="mb-2">เลขที่ยังไม่ออกนานที่สุด: <span class="font-semibold"></span></p>
+          </div>
+        </div>
+
+        <!-- โฆษณา -->
+        <div class="mt-8 bg-yellow-100 border border-yellow-300 rounded-lg p-4 text-center">
+          <h4 class="font-bold text-lg text-yellow-800 mb-2">โฆษณา</h4>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

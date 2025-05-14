@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer components {
+    .prize-number {
+        @apply font-bold text-[#b13bff];
+    }
+    .container{
+        @apply max-w-[1200px]
+    }
+    .lottery-section {
+        @apply bg-gradient-to-b from-white to-[#f3f4f6] rounded-[20px] shadow-lg p-8
+    }
+    .result-section {
+        @apply bg-gradient-to-b from-[#f8fafc] to-[#e2e8f0] rounded-[20px] shadow-lg p-8
+    }
+    .btn {
+        @apply transition-all duration-300 font-semibold
+    }
+    .btn:hover {
+        @apply transform translate-y-[-2px] shadow-md
+    }
+    .history-item {
+        @apply transition-all duration-300 ease-linear
+    }
+    .history-item:hover {
+        @apply bg-[#f1f5f9]
+    }
+    .input_num{
+        @apply w-full h-full max-w-20 max-h-20 text-center text-[2rem] border-none outline-none font-bold p-2  transition-all duration-300 ease-in-out   bg-gray-50 rounded-lg shadow-md
+    }
+    .input_num:focus{
+        @apply transform scale-110 bg-[#f3dbfa] ;
+    }
+}
