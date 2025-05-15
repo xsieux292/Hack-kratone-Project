@@ -5,16 +5,16 @@ let history = JSON.parse(localStorage.getItem('DataList')) || [];
 let resultnumber =[]
 let prize_fb = [
     {
-        name: 'รางวัลเลขหน้า 3 ตัว',
-        id: 'prize_f_3',
-    },
-    {
-        name: 'รางวัลเลขท้าย 3 ตัว',
-        id: 'prize_b_3',
+        name: 'รางวัลเลขหน้า 2 ตัว',
+        id: 'prize_f_2',
     },
     {
         name: 'รางวัลเลขท้าย 2 ตัว',
         id: 'prize_b_2',
+    },
+    {
+        name: 'รางวัลเลขท้าย 1 ตัว',
+        id: 'prize_b_1',
     }
   ]
 let alertQueue = [];
@@ -108,7 +108,7 @@ function updateHistory() {
 // อัพเดทผลรางวัล
 function UpdateResult(resultLottery) {
     const resultSection = document.getElementById('resultSection');
-    resultSection.classList.toggle('hidden');
+    resultSection.classList.remove('hidden');
     const resultList = document.getElementById('resultList');
     //clear resultList
     resultList.innerHTML = '';
@@ -231,7 +231,7 @@ function getResult(e){
     prize_fb[i].number = randomPrizeNumber;
   }
   for (let i = 2; i < 3; i++) {
-    const randomPrizeNumber = Array.from({ length: 2 }, () => Math.floor(Math.random() * 10)).join('');
+    const randomPrizeNumber = Array.from({ length: 1 }, () => Math.floor(Math.random() * 10)).join('');
     document.getElementById(prize_fb[i].id).textContent = randomPrizeNumber;
     prize_fb[i].number = randomPrizeNumber;
   }
@@ -244,9 +244,9 @@ function checkIfWon() {
     let isWinner = false;
     //เช็ค 1-5
     for (let i = 1; i <= 5; i++) {
-        const prizeNumber = resultnumber[i - 1];
+        const prizeNumber = Number(resultnumber[i - 1]);
         for (let item of history) {
-            const numcheck = item.numbers;
+            const numcheck = Number(item.numbers);
             if (numcheck === prizeNumber) {
                 countWin++;
                 resultLottery.push(item);
@@ -257,33 +257,33 @@ function checkIfWon() {
         }
     }
     for (let i = 0; i < 3; i++) {
-        const prizeNumber = prize_fb[i].number;
+        const prizeNumber = Number(prize_fb[i].number);
         for (let item of history) {
-            const numcheck = item.numbers;
+            const numcheck = Number(item.numbers);
             if (i === 0) {
                 // 3 ตัวหน้า (สมมติเลข 6 หลัก)
-                if (Math.floor(numcheck / 1000) === prizeNumber ) {
+                if (Math.floor(numcheck / 100) === prizeNumber ) {
                     countWin++;
                     resultLottery.push(item);
-                    showAlert(`ยินดีด้วย! คุณถูกรางวัลเลขหน้า 3 ตัว: ${numcheck}`, 'success');
+                    showAlert(`ยินดีด้วย! คุณถูกรางวัลเลขหน้า 2 ตัว: ${numcheck}`, 'success');
                     isWinner = true;
                 }
             } 
             if (i === 1) {
                 // 3 ตัวท้าย
-                if ((numcheck % 1000) === prizeNumber ) {
+                if ((numcheck % 100) === prizeNumber ) {
                     countWin++;
                     resultLottery.push(item);
-                    showAlert(`ยินดีด้วย! คุณถูกรางวัลเลขท้าย 3 ตัว: ${numcheck}`, 'success');
+                    showAlert(`ยินดีด้วย! คุณถูกรางวัลเลขท้าย 2 ตัว: ${numcheck}`, 'success');
                     isWinner = true;
                 }
             } 
             if (i === 2) {
                 // 2 ตัวท้าย
-                if ((numcheck % 100) === prizeNumber ) {
+                if ((numcheck % 10) === prizeNumber ) {
                     countWin++;
                     resultLottery.push(item);
-                    showAlert(`ยินดีด้วย! คุณถูกรางวัลเลขท้าย 2 ตัว: ${numcheck}`, 'success');
+                    showAlert(`ยินดีด้วย! คุณถูกรางวัลเลขท้าย 1 ตัว: ${numcheck}`, 'success');
                     isWinner = true;
                 }
             }
