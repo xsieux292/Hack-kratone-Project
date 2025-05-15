@@ -226,7 +226,7 @@ function getResult(e){
   }
   // สุ่มเลขรางวัล 3,2 ตัวท้าย และ 3 ตัวหน้า
   for (let i = 0; i < 2; i++) {
-    const randomPrizeNumber = Array.from({ length: 3 }, () => Math.floor(Math.random() * 10)).join('');
+    const randomPrizeNumber = Array.from({ length: 2 }, () => Math.floor(Math.random() * 10)).join('');
     document.getElementById(prize_fb[i].id).textContent = randomPrizeNumber; 
     prize_fb[i].number = randomPrizeNumber;
   }
