@@ -117,7 +117,7 @@
             <!-- จะแสดงประวัติที่นี่ -->
           </div>
           <button id="deletehistory" class="btn mt-4 px-4 py-2 bg-[rgb(255,127,217)] hover:bg-[rgb(219,69,174)] text-white rounded-lg shadow">ลบประวัติการทำรายการ</div>
-      </div>
+        </div>
 
       <!-- ส่วนขวา - ผลรางวัล -->
       <div class="result-section">
@@ -127,8 +127,8 @@
           <h3 class="text-xl font-semibold mb-4 text-gray-800">สถิติการออกรางวัล</h3>
           <p class="my-8 text-center">รางวัลออกยากแบบนี้ <u class="text-red-600">ไม่เล่นแล้ว</u></p>
           <div class="bg-white p-4 rounded-lg shadow">
-            <h1>อัตราการถูกรางวัล</h1>
-            <p id="winRate" class="text-4xl text-center font-bold text-red-600">100%</p>
+            <h1 class="text-xl font-semibold mb-4 text-gray-800">อัตราการถูกรางวัล</h1>
+            <p id="winRate" class="text-4xl text-center font-bold text-red-600">0.00%</p>
           </div>
         </div>
 
@@ -137,29 +137,50 @@
           <h4 class="font-bold text-lg text-yellow-800 mb-2">โฆษณา</h4>
         </div>
 
+        <!-- ผลรางวัล -->
+        <div id="resultSection" class="hidden bg-white p-4 rounded-lg shadow mb-8">
+          <h1 class="text-xl font-semibold mb-4 text-gray-800">รางวัลที่คุณถูกในครั้งนี้</h1>
+          <p id="numberWin" class="text-lg font-bold text-red-600 mb-4">จำนวนรางวัลที่ถูกรางวัล: 0 ใบ</p>
+          <div id="resultList" class="space-y-3">
+            <!-- จะแสดงผลการถูกรางวัลที่นี่ -->
+          </div>
+        </div>
+
         <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">ผลรางวัลล่าสุด</h2>
 
         <!-- เลขที่ออก -->
         <div class="space-y-4">
           <div class="flex justify-between items-center p-4 bg-white rounded-lg shadow">
             <span class="text-lg font-medium">รางวัลที่ 1:</span>
-            <span id="prize1" class="prize-number text-2xl">123456</span>
+            <span id="prize1" class="prize-number text-2xl">000000</span>
           </div>
           <div class="flex justify-between items-center p-4 bg-white rounded-lg shadow">
             <span class="text-lg font-medium">รางวัลที่ 2:</span>
-            <span id="prize2" class="prize-number text-2xl">234567</span>
+            <span id="prize2" class="prize-number text-2xl">000000</span>
           </div>
           <div class="flex justify-between items-center p-4 bg-white rounded-lg shadow">
             <span class="text-lg font-medium">รางวัลที่ 3:</span>
-            <span id="prize3" class="prize-number text-2xl">345678</span>
+            <span id="prize3" class="prize-number text-2xl">000000</span>
           </div>
           <div class="flex justify-between items-center p-4 bg-white rounded-lg shadow">
             <span class="text-lg font-medium">รางวัลที่ 4:</span>
-            <span id="prize4" class="prize-number text-2xl">456789</span>
+            <span id="prize4" class="prize-number text-2xl">000000</span>
           </div>
           <div class="flex justify-between items-center p-4 bg-white rounded-lg shadow">
             <span class="text-lg font-medium">รางวัลที่ 5:</span>
-            <span id="prize5" class="prize-number text-2xl">567890</span>
+            <span id="prize5" class="prize-number text-2xl">000000</span>
+          </div>
+          <div class="flex justify-between items-center p-4 bg-white rounded-lg shadow">
+            <span class="text-lg font-medium">รางวัลเลขหน้า 3 ตัว:</span>
+            <span id="prize_f_3" class="prize-number text-2xl">000</span>
+          </div>
+          <div class="flex justify-between items-center p-4 bg-white rounded-lg shadow">
+            <span class="text-lg font-medium">รางวัลเลขท้าย 3 ตัว:</span>
+            <span id="prize_b_3" class="prize-number text-2xl">000</span>
+          </div>
+          <div class="flex justify-between items-center p-4 bg-white rounded-lg shadow">
+            <span class="text-lg font-medium">รางวัลเลขท้าย 2 ตัว:</span>
+            <span id="prize_b_2" class="prize-number text-2xl">00</span>
           </div>
         </div>
 

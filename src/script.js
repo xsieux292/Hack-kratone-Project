@@ -3,6 +3,20 @@ let lotteryNumbers = [];
 let confirmedNumbers = [];
 let history = JSON.parse(localStorage.getItem('DataList')) || [];
 let resultnumber =[]
+let prize_fb = [
+    {
+        name: 'รางวัลเลขหน้า 3 ตัว',
+        id: 'prize_f_3',
+    },
+    {
+        name: 'รางวัลเลขท้าย 3 ตัว',
+        id: 'prize_b_3',
+    },
+    {
+        name: 'รางวัลเลขท้าย 2 ตัว',
+        id: 'prize_b_2',
+    }
+  ]
 let alertQueue = [];
 let username = JSON.parse(localStorage.getItem('usernameData')) || 'username';
 let loginStatus = JSON.parse(localStorage.getItem('loginStatus')) || false;
@@ -18,7 +32,7 @@ function generateRandomNumbers() {
     displayNumbers();
     
     // เพิ่มเอฟเฟกต์การหมุนเลข
-    const boxes = document.querySelectorAll('.number-box');
+    const boxes = document.querySelectorAll('.input_num');
     boxes.forEach(box => {
     box.style.transform = 'rotateX(360deg)';
     setTimeout(() => {
@@ -91,6 +105,24 @@ function updateHistory() {
     historyHeader.innerHTML = `ประวัติหวยที่ซื้อ: <u class="text-red-500">จำนวน ${history.length} ใบ</u>`
 }
 
+// อัพเดทผลรางวัล
+function UpdateResult(resultLottery) {
+    const resultSection = document.getElementById('resultSection');
+    resultSection.classList.toggle('hidden');
+    const resultList = document.getElementById('resultList');
+    //clear resultList
+    resultList.innerHTML = '';
+    resultLottery.forEach(item => {
+    const ResultItem = document.createElement('div');
+    ResultItem.className = 'result-item flex justify-between items-center p-3 bg-[rgb(65,241,165)] rounded-lg shadow';
+    ResultItem.innerHTML = `
+        <span class="font-medium text-red-600">${item.numbers}</span>
+        <span class="text-gray-500 text-sm">${item.time}</span>`;
+    resultList.appendChild(ResultItem);
+    });
+    resultLottery = [];
+}
+
 //อัพเดท Username
 function updateUsername() {
     localStorage.setItem('usernameData', JSON.stringify(username));
@@ -157,6 +189,7 @@ function displayNextAlert() {
         }, 1000); // Time for alert display before removing
     }
 }
+/*
 // สุ่มเลขรางวัล
 function generatePrizes() {
     for(let i = 1; i <= 5; i++) {
@@ -166,8 +199,8 @@ function generatePrizes() {
     }
     document.getElementById(`prize${i}`).textContent = prize;
     }
-}
-    
+}*/
+/*   
 const GetLotteryResult = () => {
     const number_prize = [1, 1, 1, 1 ,1, ];
     const prizeTypes = ['prize_1', 'prize_2', 'prize_3', 'prize_4', 'prize_5'];
@@ -176,43 +209,96 @@ const GetLotteryResult = () => {
         acc[prize] = Array.from({ length: number_prize[index] }, generateRandomNumber);
         return acc;
     }, {});
-};
+};*/
 
+// ฟังก์ชันแสดงผลรางวัล
 function getResult(e){
+    if (history.length === 0) {
+        alert('กรุณาซื้อหวยก่อน', 'error');
+        return;
+    }
     e.preventDefault();
-  const prizeResults = {};
+    // สุ่มเลขรางวัล 1-5
   for (let i = 1; i <= 5; i++) {
     const randomPrizeNumber = Array.from({ length: 6 }, () => Math.floor(Math.random() * 10)).join('');
     resultnumber.push(randomPrizeNumber);
-    prizeResults[`รางวัลที่ ${i}`] = randomPrizeNumber;
     document.getElementById(`prize${i}`).textContent = randomPrizeNumber; // Update the prize display
   }
+  // สุ่มเลขรางวัล 3,2 ตัวท้าย และ 3 ตัวหน้า
+  for (let i = 0; i < 2; i++) {
+    const randomPrizeNumber = Array.from({ length: 3 }, () => Math.floor(Math.random() * 10)).join('');
+    document.getElementById(prize_fb[i].id).textContent = randomPrizeNumber; 
+    prize_fb[i].number = randomPrizeNumber;
+  }
+  for (let i = 2; i < 3; i++) {
+    const randomPrizeNumber = Array.from({ length: 2 }, () => Math.floor(Math.random() * 10)).join('');
+    document.getElementById(prize_fb[i].id).textContent = randomPrizeNumber;
+    prize_fb[i].number = randomPrizeNumber;
+  }
+  console.log(prize_fb);
   checkIfWon()
 }
 
 function checkIfWon() {
     let resultLottery = [];
     let isWinner = false;
+    //เช็ค 1-5
     for (let i = 1; i <= 5; i++) {
         const prizeNumber = resultnumber[i - 1];
-        for (const item in history) {
-            const numcheck = history[item].numbers;
+        for (let item of history) {
+            const numcheck = item.numbers;
             if (numcheck === prizeNumber) {
                 countWin++;
-                resultLottery.push(prizeNumber);
+                resultLottery.push(item);
                 // แสดงผลรางวัลที่ถูกรางวัล
                 showAlert(`ยินดีด้วย! คุณถูกรางวัลที่ ${i}: ${prizeNumber}`, 'success');
                 isWinner = true;
             }
         }
     }
-    history = resultLottery;
+    for (let i = 0; i < 3; i++) {
+        const prizeNumber = prize_fb[i].number;
+        for (let item of history) {
+            const numcheck = item.numbers;
+            if (i === 0) {
+                // 3 ตัวหน้า (สมมติเลข 6 หลัก)
+                if (Math.floor(numcheck / 1000) === prizeNumber ) {
+                    countWin++;
+                    resultLottery.push(item);
+                    showAlert(`ยินดีด้วย! คุณถูกรางวัลเลขหน้า 3 ตัว: ${numcheck}`, 'success');
+                    isWinner = true;
+                }
+            } 
+            if (i === 1) {
+                // 3 ตัวท้าย
+                if ((numcheck % 1000) === prizeNumber ) {
+                    countWin++;
+                    resultLottery.push(item);
+                    showAlert(`ยินดีด้วย! คุณถูกรางวัลเลขท้าย 3 ตัว: ${numcheck}`, 'success');
+                    isWinner = true;
+                }
+            } 
+            if (i === 2) {
+                // 2 ตัวท้าย
+                if ((numcheck % 100) === prizeNumber ) {
+                    countWin++;
+                    resultLottery.push(item);
+                    showAlert(`ยินดีด้วย! คุณถูกรางวัลเลขท้าย 2 ตัว: ${numcheck}`, 'success');
+                    isWinner = true;
+                }
+            }
+        }
+    }
+    history = [];
+    //แสดงผลรางวัลที่ถูกรางวัล
+    UpdateResult(resultLottery);
     // อัพเดทประวัติ
     updateHistory();
     if (!isWinner) {
         showAlert("เสียใจด้วย คุณไม่ถูกรางวัล", "error");
     }
-    alert(`จำนวนรางวัลที่ถูกรางวัล: ${resultLottery.length} ใบ`,'success');
+    const NumberWin = document.getElementById('numberWin');
+    NumberWin.textContent = `จำนวนรางวัลที่ถูกรางวัล: ${resultLottery.length} ใบ`;
     // แสดงอัตราการชนะ
     CalculateWinRate();
 }
@@ -268,6 +354,8 @@ function CheckLoginPassword(e) {
 }
 
 function CalculateWinRate() {
+    localStorage.setItem('countLottery', JSON.stringify(0));
+    localStorage.setItem('countWin', JSON.stringify(0));
     const winRate = (countWin / countLottery) * 100;
     const winRateDisplay = document.getElementById('winRate');
     winRateDisplay.textContent = `${winRate.toFixed(2)}%`;
@@ -279,9 +367,7 @@ document.getElementById('confirmBtn').addEventListener('click', confirmNumbers);
 document.getElementById('clearBtn').addEventListener('click', clearNumbers);
 document.getElementById('viewLabel').addEventListener('click', getResult);
 document.getElementById('deletehistory').addEventListener('click', DeleteHistory);
-document.getElementById('userBtn').addEventListener('click', function() {
-    toggleMenu();
-});
+document.getElementById('userBtn').addEventListener('click', toggleMenu);
 document.getElementById('login-outBtn').addEventListener('click', function() {
     if (loginStatus) {
         // Clear username and login status
@@ -311,8 +397,9 @@ document.getElementById('loginBtn').addEventListener('click', CheckLoginPassword
 setInterval(updateCountdown, 1000);
 updateCountdown(); // เรียกครั้งแรกเพื่อแสดงผลทันที
 
+/*
 // สุ่มเลขรางวัลเมื่อโหลดหน้า
-generatePrizes();
+generatePrizes();*/
     
 // สุ่มเลขเริ่มต้นเมื่อโหลดหน้า
 generateRandomNumbers();
